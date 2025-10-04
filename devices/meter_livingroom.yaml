@@ -1,0 +1,6 @@
+# device: meter_livingroom
+location: livingroom
+entity:
+  battery: sensor.meter_livingroom_battery
+  humidity: sensor.meter_livingroom_humidity
+  temperature: sensor.meter_livingroom_temperature

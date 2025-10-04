@@ -1,0 +1,10 @@
+#device: bulb1_hallway
+location: hallway
+entity:
+  state: light.bulb1_hallway
+  identify: button.bulb1_hallway_identify
+  firmware: update.bulb1_hallway_firmware
+  on_level: number.bulb1_hallway_on_level
+  on_off_transition_time: number.bulb1_hallway_on_off_transition_time
+  start_up_behavior: select.bulb1_hallway_start_up_behavior
+  start_up_current_level: number.bulb1_hallway_start_up_current_level

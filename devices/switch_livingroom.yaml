@@ -1,0 +1,10 @@
+#device: switch_livingroom
+location: livingroom
+event_type: zha_event
+device_ieee: 08:dd:eb:ff:fe:e3:46:d7
+device_id: 55437cc6da60bc640acdbc92de4def5a
+unique_id: 08:dd:eb:ff:fe:e3:46:d7:1:0x0006
+entity:
+  battery: sensor.switch_livingroom_battery
+  identify: button.switch_livingroom_identify
+  firmware: update.switch_livingroom_firmware

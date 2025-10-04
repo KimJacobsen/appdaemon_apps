@@ -1,0 +1,9 @@
+freezer_check:
+  module: freezer_check
+  class: FreezerCheck
+  smartplug_freezer: !include /conf/devices/smartplug_utilityroom_freezer.yaml
+  notifier: "notify/mobile_app_sm_a546b"
+  power_alert_min: 25
+  power_alert_max: 100
+  sample_rate: 5
+  check_interval: 61

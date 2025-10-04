@@ -1,0 +1,11 @@
+#device: bulb2_livingroom
+location: livingroom
+entity:
+  state: light.bulb2_livingroom
+  identify: button.bulb2_livingroom_identify
+  firmware: update.bulb2_livingroom_firmware
+  on_level: number.bulb2_livingroom_on_level
+  on_off_transition_time: number.bulb2_livingroom_on_off_transition_time
+  start_up_behavior: select.bulb2_livingroom_start_up_behavior
+  start_up_color_temperature: number.bulb2_livingroom_start_up_color_temperature
+  start_up_current_level: number.bulb2_livingroom_start_up_current_level

@@ -1,0 +1,13 @@
+energy:
+  module: energy
+  class: Energy
+  ha_token: !secret ha_token
+  access_token: !secret access_token
+  metering_point: !secret metering_point
+  lookback_days: 3
+  product_id: "energi_fyn_spotel"
+  supplier_id: "vores_elnet"
+  aggregation: "Hour"
+  run_time: "15:00:00"
+  sensor_kwh: "sensor.energy_kwh"
+  sensor_cost: "sensor.energy_cost"

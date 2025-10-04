@@ -1,0 +1,120 @@
+heat_ctrl_livingroom:
+  module: heat_ctrl
+  class: HeatControl
+  location: livingroom
+  meter_temperature: !include /conf/devices/meter_livingroom.yaml
+  trv: !include /conf/devices/trv_livingroom.yaml
+  temperature_tollerance_min: 0.5
+  temperature_tollerance_max: 0.5
+  TRV_setpoint_on: 24
+  TRV_setpoint_off: 6
+  max_retries: 3
+  retry_count: 3
+  notifier: "notify/mobile_app_sm_a546b" # Example notifier
+
+  # Requirements for periods. 
+  #  - Ranges must be given with "_" as seperator, like so mon_wed
+  #  - Single days are allowed like so: mon or wed
+  #  - Comma seperated dayes are NOT allowed, Not allowed: mon,fri
+  #  - days must be named like this (three letters and lowercase)
+  #    - mon, tue, wed, thu, fri, sat, sun
+
+  # periods: # Spring/summer 
+  #   mon_sun:
+  #     - "00:00:00,23:00:00,6" # period_temperature <start_time>,<end_time>,<temperature>
+
+  periods:
+    # Autumn/Winter
+    mon:
+    - "00:00:00,04:00:00,19" #period_temperature 
+    - "05:00:00,20:00:00,20"
+    - "21:00:00,23:00:00,19"
+    tue_fri:
+    - "00:00:00,04:00:00,19"
+    - "05:00:00,08:00:00,20"
+    - "09:00:00,13:00:00,19"
+    - "14:00:00,20:00:00,20"
+    - "21:00:00,23:00:00,19"
+    sat_sun:
+    - "00:00:00,07:00:00,19"
+    - "08:00:00,21:00:00,20"
+    - "21:00:00,23:00:00,19"
+
+heat_ctrl_bedroom:
+  module: heat_ctrl
+  class: HeatControl
+  location: bedroom
+  meter_temperature: !include /conf/devices/meter_bedroom.yaml
+  trv: !include /conf/devices/trv_bedroom.yaml
+  temperature_tollerance_min: 0.5
+  temperature_tollerance_max: 0.5
+  TRV_setpoint_on: 24
+  TRV_setpoint_off: 6
+  max_retries: 3
+  retry_count: 3
+  notifier: "notify/mobile_app_sm_a546b" # Example notifier
+
+  # Requirements for periods. 
+  #  - Ranges must be given with "_" as seperator, like so mon_wed
+  #  - Single days are allowed like so: mon or wed
+  #  - Comma seperated dayes are NOT allowed, Not allowed: mon,fri
+  #  - days must be named like this (three letters and lowercase)
+  #    - mon, tue, wed, thu, fri, sat, sun
+
+  # periods: # Spring/summer 
+  #   mon_sun:
+  #     - "00:00:00,23:00:00,6" # period_temperature <start_time>,<end_time>,<temperature>
+
+  periods:
+    # Autumn/Winter
+    mon_fri:
+    - "00:00:00,04:00:00,6" #period_temperature
+    - "05:00:00,14:00:00,6"
+    - "15:00:00,23:00:00,6"
+    sat_sun:
+    - "00:00:00,10:00:00,6"
+    - "11:00:00,14:00:00,6"
+    - "15:00:00,23:00:00,6"
+
+heat_ctrl_kitchen:
+  module: heat_ctrl
+  class: HeatControl
+  location: kitchen
+  meter_temperature: !include /conf/devices/meter_kitchen.yaml
+  trv: !include /conf/devices/trv_kitchen.yaml
+  window_sensor: !include /conf/devices/window_sensor_kitchen.yaml
+  temperature_tollerance_min: 0.5
+  temperature_tollerance_max: 0.5
+  TRV_setpoint_on: 24
+  TRV_setpoint_off: 6
+  max_retries: 3
+  retry_count: 3
+  notifier: "notify/mobile_app_sm_a546b" # Example notifier
+
+  # Requirements for periods. 
+  #  - Ranges must be given with "_" as seperator, like so mon_wed
+  #  - Single days are allowed like so: mon or wed
+  #  - Comma seperated dayes are NOT allowed, Not allowed: mon,fri
+  #  - days must be named like this (three letters and lowercase)
+  #    - mon, tue, wed, thu, fri, sat, sun
+
+  #  periods: # Spring/summer 
+  #    mon_sun:
+  #      - "00:00:00,23:00:00,6" # period_temperature <start_time>,<end_time>,<temperature>
+
+  periods:
+    # Autumn/Winter
+    mon:
+    - "00:00:00,04:00:00,19" #period_temperature 
+    - "05:00:00,20:00:00,20"
+    - "21:00:00,23:00:00,19"
+    tue_fri:
+    - "00:00:00,04:00:00,19"
+    - "05:00:00,08:00:00,20"
+    - "09:00:00,13:00:00,19"
+    - "14:00:00,20:00:00,20"
+    - "21:00:00,23:00:00,19"
+    sat_sun:
+    - "00:00:00,07:00:00,19"
+    - "08:00:00,21:00:00,20"
+    - "21:00:00,23:00:00,19"

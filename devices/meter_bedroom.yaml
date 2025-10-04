@@ -1,0 +1,6 @@
+#device: meter_bedroom
+location: bedroom
+entity:
+  battery: sensor.meter_bedroom_battery
+  humidity: sensor.meter_bedroom_humidity
+  temperature: sensor.meter_bedroom_temperature

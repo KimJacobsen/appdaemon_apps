@@ -1,0 +1,6 @@
+#device: meter_kitchen
+location: kitchen
+entity:
+  battery: sensor.meter_kitchen_battery
+  humidity: sensor.meter_kitchen_humidity
+  temperature: sensor.meter_kitchen_temperature

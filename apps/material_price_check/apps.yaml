@@ -1,0 +1,52 @@
+fence_material_price_checker:
+  module: material_price_check
+  class: PriceTracker
+  notifier: "notify/mobile_app_sm_a546b"
+  price_selector: ".Price__PriceNumber-sc-193c5l6-1"
+  check_interval_hours: 12
+  products:
+  - name: "Høvlede stolper trykimprægneret 90x90 mm"
+    friendly_name: "Stolper 90x90"
+    url: "https://www.davidsen.dk/toemmer-hoevlede-stolper-trykimpraegneret-90x90-mm-x-30-m-c-id525421-p-1618190090-0300"
+    target_price: 49.75
+    unit: "DKK/m"
+  - name: "Brædder fyr/gran trykimpr. kvinta sort 25x100 mm"
+    friendly_name: "Brædder 25x100"
+    url: "https://www.davidsen.dk/braedder-fyr-gran-trykimpr-kvinta-sort-25x100-mm-x-36m-c-id525423-p-1085025100-0360"
+    target_price: 20.00
+    unit: "DKK/m"
+  - name: "Hegnsbrædder gran trykimprægneret 19 x 100 mm"
+    friendly_name: "Hegnsbrædder 19x100"
+    url: "https://www.davidsen.dk/hegnsbraedder-gran-trykimpraegneret-19-x-100-mm-x-21m-c-id543613-p-1187019100-0210"
+    target_price: 8.00
+    unit: "DKK/m"
+  - name: "Reglar fyr trykimprægneret NTR klasse A/B 47x125 mm"
+    friendly_name: "Reglar 47x125"
+    url: "https://www.davidsen.dk/reglar-fyr-trykimpraegneret-ntr-klasse-a-b-47x125-mm-x-36-m-c-id525415-p-1388047125-0360"
+    target_price: 29.75
+    unit: "DKK/m"
+  - name: "Rockwool A-Batts 45x560x965 mm"
+    friendly_name: "A-batts 45x560x965"
+    url: "https://www.davidsen.dk/rockwool-a-batts-45x560x965-mm-c-id525025-p-45101913394"
+    target_price: 41.00
+    unit: "DKK/m2"
+  - name: "Skalflex stolpebeton 20 kg"
+    friendly_name: "Stolpebeton"
+    url: "https://www.davidsen.dk/skalflex-stolpebeton-20-kg-c-id525016-p-30402110355"
+    target_price: 50.00
+    unit: "DKK/pcs"
+  - name: "Ukrudtsdug 80g/m2 1,2 m pr. rulle"
+    friendly_name: "Ukrudstdug"
+    url: "https://www.davidsen.dk/ukrudtsdug-80g-m2-12-m-pr-rulle-c-id1627773-p-48901676438"
+    target_price: 95.00
+    unit: "DKK/pcs"
+  - name: "NKT DECK PRO outdoor skjult terrasseskrue 4,5x60 mm"
+    friendly_name: "Terrasseskrue"
+    url: "https://www.davidsen.dk/nkt-deck-pro-outdoor-skjult-terrasseskrue-45x60-mm-tx15-250-stk-c-id525231-p-51602051967"
+    target_price: 185.00
+    unit: "DKK/pcs"
+  - name: "Thermowood afstandsliste 25x50 mm"
+    friendly_name: "Thermowood 25x50"
+    url: "https://www.davidsen.dk/thermowood-afstandsliste-25x50-mm-42-m-c-id525425-p-1125025050-0420"
+    target_price: 14.00
+    unit: "DKK/m"

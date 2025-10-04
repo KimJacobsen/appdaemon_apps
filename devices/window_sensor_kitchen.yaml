@@ -1,0 +1,7 @@
+#device: window_sensor_kitchen
+location: kitchen
+entity:
+  battery: sensor.window_sensor_kitchen_battery
+  identify: button.window_sensor_kitchen_identify
+  firmware: update.window_sensor_kitchen_firmware
+  window_sensor: binary_sensor.window_sensor_kitchen

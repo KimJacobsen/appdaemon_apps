@@ -1,0 +1,10 @@
+__pycache__/
+.vscode/
+*.pyc
+compiled/
+dashboards/
+logs/
+namespaces/
+www/
+appdaemon.yaml
+secrets.yaml

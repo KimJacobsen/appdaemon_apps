@@ -1,0 +1,13 @@
+#device: smartplug_utilityroom_freezer
+  location: utilityroom
+  entity:
+    identify: button.smartplug_freezer_identify
+    backlightmode: select.smartplug_freezer_backlightmode
+    power_on_state: select.smartplug_freezer_power_on_state 
+    current: sensor.smartplug_freezer_current   
+    power: sensor.smartplug_freezer_power
+    summation_delivered: sensor.smartplug_freezer_summation_delivered
+    voltage: sensor.smartplug_freezer_voltage
+    child_lock: switch.smartplug_freezer_child_lock
+    on_off: switch.smartplug_freezer_on_off
+    firmware: update.smartplug_freezer_firmware

@@ -1,0 +1,7 @@
+log_bridge:
+  module: log_bridge
+  class: LogBridge
+  entity_id: sensor.appdaemon_log
+  level: INFO # Minimum log level to forward to the sensor.
+  logbook_enabled: true # Set to false to disable writing to the HA logbook.
+  logbook_min_level: INFO # Minimum level to write to the HA logbook (e.g., WARNING, ERROR).

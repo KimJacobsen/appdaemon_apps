@@ -1,0 +1,8 @@
+light_livingroom:
+  module: light_livingroom
+  class: LivingroomLight
+  location: livingroom
+  switch: !include /conf/devices/switch_livingroom.yaml
+  bulbs:
+    - !include /conf/devices/bulb1_livingroom.yaml
+    - !include /conf/devices/bulb2_livingroom.yaml

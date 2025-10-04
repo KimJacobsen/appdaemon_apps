@@ -1,0 +1,6 @@
+#device: meter_frederik
+location: frederik
+entity:
+  battery: sensor.meter_frederik_battery
+  humidity: sensor.meter_frederik_humidity
+  temperature: sensor.meter_frederik_temperature
