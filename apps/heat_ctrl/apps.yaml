@@ -4,6 +4,7 @@ heat_ctrl_livingroom:
   location: livingroom
   meter_temperature: !include /conf/devices/meter_livingroom.yaml
   trv: !include /conf/devices/trv_livingroom.yaml
+  #window_sensor: !include /conf/devices/window_sensor_livingroom.yaml
   temperature_tollerance_min: 0.5
   temperature_tollerance_max: 0.5
   TRV_setpoint_on: 24

@@ -1,5 +1,5 @@
 from appdaemon.plugins.hass import Hass
-from common.decorators import handle_errors
+
 
 class LivingroomLight(Hass):
 
@@ -20,8 +20,8 @@ class LivingroomLight(Hass):
             device_ieee = self.switch_ieee
         )
         
-    @handle_errors
-    def on_button_press(self, event_name, data, **kwargs):
+    
+    def on_button_press(self, event_name, data, **kwargs): 
         self.log(f"Button press event: {data}")
         command = data.get("command")
         self.log(f"Turning livingroom lights {command}")
