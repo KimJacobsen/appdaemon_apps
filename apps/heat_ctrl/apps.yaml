@@ -3,8 +3,11 @@ heat_ctrl_livingroom:
   class: HeatControl
   location: livingroom
   meter_temperature: !include /conf/devices/meter_livingroom.yaml
-  trv: !include /conf/devices/trv_livingroom.yaml
-  #window_sensor: !include /conf/devices/window_sensor_livingroom.yaml
+  trvs:
+  #- !include /conf/devices/trv_livingroom1.yaml
+  - !include /conf/devices/trv_livingroom2.yaml
+  #- !include /conf/devices/trv_livingroom3.yaml
+  window_sensor: !include /conf/devices/window_sensor_livingroom.yaml
   temperature_tollerance_min: 0.5
   temperature_tollerance_max: 0.5
   TRV_setpoint_on: 24
@@ -46,7 +49,8 @@ heat_ctrl_bedroom:
   class: HeatControl
   location: bedroom
   meter_temperature: !include /conf/devices/meter_bedroom.yaml
-  trv: !include /conf/devices/trv_bedroom.yaml
+  trvs:
+  - !include /conf/devices/trv_bedroom.yaml
   temperature_tollerance_min: 0.5
   temperature_tollerance_max: 0.5
   TRV_setpoint_on: 24
@@ -82,7 +86,8 @@ heat_ctrl_kitchen:
   class: HeatControl
   location: kitchen
   meter_temperature: !include /conf/devices/meter_kitchen.yaml
-  trv: !include /conf/devices/trv_kitchen.yaml
+  trvs:
+  - !include /conf/devices/trv_kitchen.yaml
   window_sensor: !include /conf/devices/window_sensor_kitchen.yaml
   temperature_tollerance_min: 0.5
   temperature_tollerance_max: 0.5

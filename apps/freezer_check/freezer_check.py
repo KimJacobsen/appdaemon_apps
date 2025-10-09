@@ -3,6 +3,7 @@ from appdaemon.adapi import ADAPI
 from common.decorators import log_call
 from collections import deque
 from typing import Deque
+import debugpy
 
 
 class FreezerCheck(ADAPI):
@@ -22,6 +23,8 @@ class FreezerCheck(ADAPI):
         self.smartplug_power = config["smartplug_freezer"]["entity"]["power"]
 
     def initialize(self):
+        
+    
         """Initialize the app, state, and schedulers."""
         self.log("----- Initializing FreezerCheck App -----")
         self.extract_config()
@@ -43,7 +46,7 @@ class FreezerCheck(ADAPI):
         try:
             power_usage = float(self.get_state(self.smartplug_power))
             self.power_samples.append(power_usage)
-            self.log(f"[Sample] Current: {power_usage}W")
+            self.log(f"[Sample] Current: {power_usage}W")  
 
         except (ValueError, TypeError) as e:
             self.log(f"[ERROR] Could not parse power usage: {e}", level="ERROR")

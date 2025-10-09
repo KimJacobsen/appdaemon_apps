@@ -1,6 +1,7 @@
 from appdaemon.adapi import ADAPI
 from functools import wraps
 from common.decorators import log_call, requires_active_listener
+import debugpy
 
 
 class HeatControl(ADAPI):
@@ -21,11 +22,22 @@ class HeatControl(ADAPI):
         # Extract entities from apps.yaml
         self.temp_sensor   = config["meter_temperature"]["entity"]["temperature"]
         self.window_sensor = config.get("window_sensor", {}).get("entity", {}).get("window_sensor")
-        self.trv_entity    = config["trv"]["entities"]["trv"]["entity_id"]
-        self.trv_attr      = config["trv"]["entities"]["trv"]["attr"]["temperature"]
-
-    def initialize(self):
-        self.extract_config()    
+        
+        # Handle multiple TRVs
+        self.trv_configs = []        
+        for trv in config["trvs"]:
+            self.trv_configs.append({
+                "entity_id": trv["entities"]["trv"]["entity_id"],
+                "attr": trv["entities"]["trv"]["attr"]["temperature"]
+            })
+       
+    
+    def initialize(self):  
+        
+        self.extract_config() 
+        if self.location == 'kitchen':
+            debugpy.listen(("0.0.0.0", 5678))
+            
         self.log(f"----- Initializing HeatControl for {self.location.upper()} -----") 
 
         # Subscribe to events
@@ -36,20 +48,25 @@ class HeatControl(ADAPI):
             self.log(f"Subscribing to window sensor: {self.window_sensor}")
             self.listen_state(self.on_window_change, entity_id=self.window_sensor)
 
+        # Subscribe to all TRVs
+        for trv in self.trv_configs:
+            self.log(f"Subscribing to TRV: {trv['entity_id']}")
+            self.listen_state(self.on_trv_setpoint_change,
+                            entity_id=trv['entity_id'],
+                            attribute=trv['attr'])
 
-        # State control
+    # State control
         self.active = True
-        self.log(f"Subscribing to TRV: {self.trv_entity}")
-        self.listen_state(self.on_trv_setpoint_change,
-                          entity_id=self.trv_entity,
-                          attribute=self.trv_attr)
 
 
     def activate_listener(self):
         self.active = True
+        self.log(f"LISTENER ACTIVATED")
 
     def suspend_listener(self):
         self.active = False
+        self.log(f"LISTENER SUSPENDED")
+
 
     @requires_active_listener
     @log_call
@@ -69,7 +86,7 @@ class HeatControl(ADAPI):
     def on_temperature_change(self, entity, attribute, old, new, **kwargs):
         if new != "unavailable":
             
-            today = self.get_now().strftime("%a").lower()
+            today = self.get_now().strftime("%a").lower() 
             
             for period_name, entries in self.periods.items():
                 if self.is_day_in_range(period_name, today):
@@ -166,42 +183,58 @@ class HeatControl(ADAPI):
     @log_call
     def set_trv_setpoint(self, setpoint: float, **kwargs):
         if not self.active:
-            self.log(f"Setting TRV setpoint to {setpoint}C...")
+            self.log(f"Setting TRV setpoints to {setpoint}C...")
             self.retry_count = 0
             self.expected_setpoint = float(setpoint)
-            self.call_service("climate/set_temperature",
-                              entity_id=self.trv_entity,
-                              temperature=self.expected_setpoint)
+            
+            # Set temperature for all TRVs
+            for i, trv in enumerate(self.trv_entities):
+                self.call_service("climate/set_temperature",
+                                entity_id=trv,
+                                temperature=self.expected_setpoint)
+                if i < len(self.trv_entities) - 1:  # Don't sleep after the last TRV
+                    self.run_in(lambda x: None, 1)  # Sleep for 1 second        
             self.run_in(self.verify_trv_setpoint, 6)
 
     @log_call
     def verify_trv_setpoint(self, **kwargs):
-        current_setpoint = self.get_trv_setpoint()
-        try:
-            current_setpoint = float(current_setpoint)
-        except (ValueError, TypeError):
-            self.log("[ERROR] Failed to read current TRV setpoint.")
-            current_setpoint = None
+        all_setpoints_correct = True
+        error_messages = []
 
-        if current_setpoint is not None and abs(current_setpoint - self.expected_setpoint) < 0.1:
-            self.log(f"[OK] TRV accepted setpoint: {current_setpoint}C")
+        for trv in self.trv_configs:
+            current_setpoint = self.get_state(trv['entity_id'], trv['attr'])
+            try:
+                current_setpoint = float(current_setpoint)
+            except (ValueError, TypeError):
+                self.log(f"[ERROR] Failed to read current TRV setpoint for {trv['entity_id']}")
+                all_setpoints_correct = False
+                error_messages.append(f"Failed to read {trv['entity_id']}")
+                continue
+
+            if abs(current_setpoint - self.expected_setpoint) >= 0.1:
+                all_setpoints_correct = False
+                error_messages.append(f"{trv['entity_id']}: Expected {self.expected_setpoint}C, got {current_setpoint}C")
+
+        if all_setpoints_correct:
+            self.log(f"[OK] All TRVs accepted setpoint: {self.expected_setpoint}C")
             self.activate_listener()
         else:
             self.retry_count += 1
             if self.retry_count < self.max_retries:
-                self.log(f"[INFO] Retry {self.retry_count}: Expected {self.expected_setpoint}C, got {current_setpoint}")
+                self.log(f"[INFO] Retry {self.retry_count}: " + "; ".join(error_messages))
                 self.run_in(self.verify_trv_setpoint, 6)
             else:
-                self.log(f"[ERROR] Max retries reached. Failed to set TRV to {self.expected_setpoint}C.", level="ERROR")
-                self.send_ha_notification(current_setpoint)
-                self.activate_listener() # Stop retrying and allow new events
+                self.log(f"[ERROR] Max retries reached. Failed to set some TRVs to {self.expected_setpoint}C.", level="ERROR")
+                self.send_ha_notification(error_messages)
+                self.activate_listener()
 
-    def send_ha_notification(self, current_setpoint):
+    def send_ha_notification(self, error_messages):
         """Sends a notification to Home Assistant about the failure."""
         title = f"Heat Control Alert: {self.location}"
-        message = (f"Failed to set TRV setpoint to {self.expected_setpoint}°C after {self.max_retries} retries. "
-                   f"The current setpoint is {current_setpoint}°C. Check battery!")
+        message = (f"Failed to set TRV setpoint to {self.expected_setpoint}°C after {self.max_retries} retries.\n"
+                f"Errors: {'; '.join(error_messages)}. Check batteries!")
         self.call_service(self.notifier, title=title, message=message)
 
     def get_trv_setpoint(self):
-        return self.get_state(self.trv_entity, self.trv_attr)
+        # Return the setpoint of the first TRV (they should all be the same)
+        return self.get_state(self.trv_configs[0]['entity_id'], self.trv_configs[0]['attr'])
