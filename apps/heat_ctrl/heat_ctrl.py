@@ -1,9 +1,9 @@
 from appdaemon.adapi import ADAPI
 from functools import wraps
-from common.decorators import log_call, requires_active_listener
-import debugpy
+from common.decorators import log_call, requires_active_listener, debugpy_init
 
 
+#@debugpy_init(port=5678)
 class HeatControl(ADAPI):
 
     def extract_config(self):
@@ -20,7 +20,7 @@ class HeatControl(ADAPI):
         self.notifier     = config.get("notifier", "notify/notify")
 
         # Extract entities from apps.yaml
-        self.temp_sensor   = config["meter_temperature"]["entity"]["temperature"]
+        self.temp_sensor   = config.get("meter_temperature", {}).get("entity", {}).get("temperature")
         self.window_sensor = config.get("window_sensor", {}).get("entity", {}).get("window_sensor")
         
         # Handle multiple TRVs
@@ -32,11 +32,9 @@ class HeatControl(ADAPI):
             })
        
     
-    def initialize(self):  
+    def initialize(self):
         
         self.extract_config() 
-        if self.location == 'kitchen':
-            debugpy.listen(("0.0.0.0", 5678))
             
         self.log(f"----- Initializing HeatControl for {self.location.upper()} -----") 
 
@@ -88,6 +86,7 @@ class HeatControl(ADAPI):
             
             today = self.get_now().strftime("%a").lower() 
             
+            period_found = False
             for period_name, entries in self.periods.items():
                 if self.is_day_in_range(period_name, today):
                     for entry in entries:
@@ -97,9 +96,11 @@ class HeatControl(ADAPI):
                             self.suspend_listener()
                             self.control_trv(setpoint, new)
                             return
-                else:
-                    self.log(f"Day is not in range: period_name: {period_name} | today: {today}")
-                    self.log(f"Check apps.yaml if period_temperature is definded for this moment")
+                    period_found = True
+
+            if not period_found:
+                self.log(f"No matching period found for today ({today})")
+                self.log(f"Check apps.yaml if period_temperature is defined for this moment")
         else:
             self.log(f"The {entity} is {new}")
 
@@ -188,13 +189,13 @@ class HeatControl(ADAPI):
             self.expected_setpoint = float(setpoint)
             
             # Set temperature for all TRVs
-            for i, trv in enumerate(self.trv_entities):
+            for i, trv in enumerate(self.trv_configs):
                 self.call_service("climate/set_temperature",
-                                entity_id=trv,
+                                entity_id=trv['entity_id'],
                                 temperature=self.expected_setpoint)
-                if i < len(self.trv_entities) - 1:  # Don't sleep after the last TRV
+                if i < len(self.trv_configs) - 1:  # Don't sleep after the last TRV
                     self.run_in(lambda x: None, 1)  # Sleep for 1 second        
-            self.run_in(self.verify_trv_setpoint, 6)
+            self.run_in(self.verify_trv_setpoint, 8)
 
     @log_call
     def verify_trv_setpoint(self, **kwargs):
@@ -222,7 +223,7 @@ class HeatControl(ADAPI):
             self.retry_count += 1
             if self.retry_count < self.max_retries:
                 self.log(f"[INFO] Retry {self.retry_count}: " + "; ".join(error_messages))
-                self.run_in(self.verify_trv_setpoint, 6)
+                self.run_in(self.verify_trv_setpoint, 8)
             else:
                 self.log(f"[ERROR] Max retries reached. Failed to set some TRVs to {self.expected_setpoint}C.", level="ERROR")
                 self.send_ha_notification(error_messages)

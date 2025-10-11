@@ -1,4 +1,4 @@
-#device: window_sensor_livingroom
+device: window_sensor_livingroom
 location: livingroom
 entity:
   battery: sensor.window_sensor_livingroom_battery

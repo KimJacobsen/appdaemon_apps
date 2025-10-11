@@ -1,0 +1,31 @@
+battery_monitor:
+  module: battery_monitor
+  class: BatteryMonitor
+  
+  # General settings
+  battery_threshold: 20  # Percentage threshold for regular sensors
+  check_interval: 86400  # Check interval in seconds (24 hours)
+  notifier: "notify/mobile_app_sm_a546b"  # Your notification service
+  
+  # Regular sensors (report 0-100%)
+  sensors:    
+    - !include /conf/devices/meter_bedroom.yaml
+    - !include /conf/devices/meter_kitchen.yaml
+    - !include /conf/devices/meter_livingroom.yaml
+    - !include /conf/devices/switch_livingroom.yaml
+    - !include /conf/devices/window_sensor_kitchen.yaml
+    - !include /conf/devices/window_sensor_livingroom.yaml    
+  
+  # Binary sensors (report OK/NOK)
+  binary_sensors:
+    - !include /conf/devices/trv_livingroom2.yaml
+    - !include /conf/devices/trv_bedroom.yaml
+    - !include /conf/devices/trv_kitchen.yaml
+  
+  # States that indicate low battery for binary sensors
+  binary_low_states:
+    - "on"      # Some devices use "on" to indicate low battery
+    - "low"
+    - "replace"
+    - "critical"
+    - "false"

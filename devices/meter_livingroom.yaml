@@ -1,4 +1,4 @@
-# device: meter_livingroom
+device: meter_livingroom
 location: livingroom
 entity:
   battery: sensor.meter_livingroom_battery

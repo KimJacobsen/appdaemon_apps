@@ -1,12 +1,10 @@
-#device: trv_livingroom2
+device: trv_livingroom2
 location: livingroom2
-entities:
-  battery:
-    "entity_id:": binary_sensor.trv_livingroom2_battery
+entity:
+  battery: binary_sensor.trv_livingroom2_battery
   trv:
     entity_id: climate.trv_livingroom2
-    attr:
-      #attributes for entity trv: climate.trv_livingroom2
+    attr: #attributes for entity trv: climate.trv_livingroom2     
       hvac_modes: hvac_modes
       min_temp: min_temp
       max_temp: max_temp
@@ -16,23 +14,13 @@ entities:
       system_mode: system_mode
       friendly_name: friendly_name
       supported_features: supported_features
-  temperature_offset:
-    entity_id: number.trv_livingroom2_local_temperature_offset
-  hvac_action:
-    entity_id: sensor.trv_livingroom2_hvac_action
-  valve_position:
-    entity_id: sensor.trv_livingroom2_valve_position
-  away_mode:
-    entity_id: switch.trv_livingroom2_away_mode
-  child_lock:
-    entity_id: switch.trv_livingroom2_child_lock
-  frost_protection:
-    entity_id: switch.trv_livingroom2_frost_protection
-  scale_protection:
-    entity_id: switch.trv_livingroom2_scale_protection
-  schedule_enable:
-    entity_id: switch.trv_livingroom2_schedule_enable
-  window_detection:
-    entity_id: switch.trv_livingroom2_window_detection
-  firmware:
-    entity_id: update.trv_livingroom2_firmware
+  temperature_offset: number.trv_livingroom2_local_temperature_offset
+  hvac_action: sensor.trv_livingroom2_hvac_action
+  valve_position: sensor.trv_livingroom2_valve_position
+  away_mode: switch.trv_livingroom2_away_mode
+  child_lock: switch.trv_livingroom2_child_lock
+  frost_protection: switch.trv_livingroom2_frost_protection
+  scale_protection: switch.trv_livingroom2_scale_protection
+  schedule_enable: switch.trv_livingroom2_schedule_enable
+  window_detection: switch.trv_livingroom2_window_detection
+  firmware: update.trv_livingroom2_firmware

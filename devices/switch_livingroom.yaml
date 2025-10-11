@@ -1,4 +1,4 @@
-#device: switch_livingroom
+device: switch_livingroom
 location: livingroom
 event_type: zha_event
 device_ieee: 08:dd:eb:ff:fe:e3:46:d7

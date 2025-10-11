@@ -4,7 +4,7 @@ energy:
   ha_token: !secret ha_token
   access_token: !secret access_token
   metering_point: !secret metering_point
-  lookback_days: 3
+  lookback_days: 7
   product_id: "energi_fyn_spotel"
   supplier_id: "vores_elnet"
   aggregation: "Hour"

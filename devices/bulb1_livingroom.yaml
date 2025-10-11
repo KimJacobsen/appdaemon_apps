@@ -1,4 +1,4 @@
-#device: bulb1_livingroom
+device: bulb1_livingroom
 location: livingroom
 entity:
   state: light.bulb1_livingroom

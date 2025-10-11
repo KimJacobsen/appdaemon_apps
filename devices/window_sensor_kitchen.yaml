@@ -1,4 +1,4 @@
-#device: window_sensor_kitchen
+device: window_sensor_kitchen
 location: kitchen
 entity:
   battery: sensor.window_sensor_kitchen_battery

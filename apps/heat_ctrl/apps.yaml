@@ -12,8 +12,8 @@ heat_ctrl_livingroom:
   temperature_tollerance_max: 0.5
   TRV_setpoint_on: 24
   TRV_setpoint_off: 6
-  max_retries: 3
-  retry_count: 3
+  max_retries: 5
+  retry_count: 5
   notifier: "notify/mobile_app_sm_a546b" # Example notifier
 
   # Requirements for periods. 
