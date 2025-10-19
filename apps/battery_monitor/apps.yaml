@@ -3,7 +3,7 @@ battery_monitor:
   class: BatteryMonitor
   
   # General settings
-  battery_threshold: 20  # Percentage threshold for regular sensors
+  battery_threshold: 10  # Percentage threshold for regular sensors
   check_interval: 86400  # Check interval in seconds (24 hours)
   notifier: "notify/mobile_app_sm_a546b"  # Your notification service
   

@@ -5,11 +5,12 @@ import debugpy
 
 T = TypeVar('T')
 
-def debugpy_init(port: int = 5678):
+def debugpy_init(port: int = 5678, wait_for_client: bool = False):
     """Decorator to initialize debugpy with a specified port.
     
     Args:
         port: Port number for debugpy to listen on. Defaults to 5678.
+        wait_for_client: Whether to wait for a client to connect before continuing. Defaults to False.
     """
     def decorator(cls: Type[T]) -> Type[T]:
         original_init = cls.initialize
@@ -20,8 +21,13 @@ def debugpy_init(port: int = 5678):
             if not hasattr(cls, '_debugpy_initialized'):
                 try:
                     debugpy.listen(("localhost", port))
-                    debugpy.wait_for_client()
-                    self.log(f"Debugpy: Waiting for client to connect on port {port}")
+                    self.log(f"Debugpy: Listening on port {port}")
+                    
+                    if wait_for_client:
+                        self.log("Debugpy: Waiting for client to connect...")
+                        debugpy.wait_for_client()
+                        self.log("Debugpy: Client connected")
+                    
                     setattr(cls, '_debugpy_initialized', True)
                 except RuntimeError:
                     self.log("Debugpy is already initialized.")

@@ -22,7 +22,7 @@ class Energy(Hass):
         self.run_daily(self.run_job, self.run_time)
         self.log(f"Scheduled daily cost calculation at {self.run_time}")
         
-        self.run_in(self.run_job, 5) # Run on startup to check for gaps
+        #self.run_in(self.run_job, 5) # Run on startup to check for gaps
 
     def extract_config(self):
         config = self.args
@@ -231,7 +231,7 @@ class Energy(Hass):
                 "unit_price": unit_price,
                 "total": total
             })
-            self.log(f"{date} | kWh: {kwh:.3f} | Unit: {unit_price:.4f} DKK | Total: {total:.2f} DKK")
+            #self.log(f"{date} | kWh: {kwh:.3f} | Unit: {unit_price:.4f} DKK | Total: {total:.2f} DKK")
         
         return self.send_statistics_to_ha(breakdown)
     

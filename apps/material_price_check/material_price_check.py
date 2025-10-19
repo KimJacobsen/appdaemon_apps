@@ -77,7 +77,7 @@ class PriceTracker(ADAPI):
                 "Accept-Language": "en-US,en;q=0.9",
             }
 
-            self.log(f"Fetching '{product_name}'")
+            #self.log(f"Fetching '{product_name}'")
             response = requests.get(product_url, headers=headers)
             response.raise_for_status()  # Raise an exception for bad status codes (4xx or 5xx)
 
@@ -96,7 +96,7 @@ class PriceTracker(ADAPI):
             price_text = price_element.get_text(strip=True).replace(".", "").replace(",", ".")
 
             current_price = float(price_text) # Convert to float for comparison
-            self.log(f"{product_name} | {current_price=:.2f} {unit} | {target_price=} {unit}")
+            #self.log(f"{product_name} | {current_price=:.2f} {unit} | {target_price=} {unit}")
             
             # Create/update the Home Assistant sensor
             self.set_state(entity_id, state=current_price, attributes={

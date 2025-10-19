@@ -3,7 +3,7 @@ from functools import wraps
 from common.decorators import log_call, requires_active_listener, debugpy_init
 
 
-#@debugpy_init(port=5678)
+@debugpy_init(port=5678)
 class HeatControl(ADAPI):
 
     def extract_config(self):
@@ -27,8 +27,8 @@ class HeatControl(ADAPI):
         self.trv_configs = []        
         for trv in config["trvs"]:
             self.trv_configs.append({
-                "entity_id": trv["entities"]["trv"]["entity_id"],
-                "attr": trv["entities"]["trv"]["attr"]["temperature"]
+                "entity_id": trv["entity"]["trv"]["entity_id"],
+                "attr": trv["entity"]["trv"]["attr"]["temperature"]
             })
        
     
